@@ -1,0 +1,51 @@
+name: mart_map
+description: MartMap on Flutter.
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  cupertino_icons: ^0.1.2
+  flutter_svg: ^0.6.3
+  shared_preferences: ^0.4.3
+  http: ^0.12.0
+#  geolocator: ^2.1.0
+  connectivity: ^0.3.2
+  image_picker: ^0.4.10
+  share: ^0.5.3
+  flutter_google_places: ^0.1.4+1
+  google_maps_webservice: ^0.0.10
+  backdrop: ^0.1.8
+  flutter_rating: ^0.0.2
+  google_maps_flutter: ^0.0.3+3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  intl_translation: ^0.17.1
+#  flutter_launcher_icons: "^0.6.1"
+
+#flutter_icons:
+#  android: true
+#  ios: true
+#  image_path: "assets/icons/ic_launcher.png"
+#  image_path_android: "assets/icons/ic_launcher.png"
+#  image_path_ios: "assets/icons/ic_launcher_ios.png"
+
+flutter:
+  uses-material-design: true
+#  assets:
+#    - assets/images/some_image.jpg
+#
+#
+#  fonts:
+#      - family: LatoBold
+#        fonts:
+#          - asset: assets/fonts/lato_bold.ttf
+#      - family: LatoMedium
+#        fonts:
+#          - asset: assets/fonts/lato_medium.ttf
+#      - family: LatoRegular
+#        fonts:
+#          - asset: assets/fonts/lato_regular.ttf
