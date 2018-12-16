@@ -1,12 +1,12 @@
-import 'package:flutter/src/scheduler/ticker.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
 import 'package:mart_map/data/api/entities/Store.dart';
+import 'package:mart_map/presentation/app/views_states.dart';
 import 'package:mart_map/presentation/views/base/mvvm/BaseView.dart';
 import 'package:mart_map/presentation/views/main/main_screen_model.dart';
 import 'package:flutter/material.dart';
 import 'package:backdrop/backdrop.dart';
-import 'package:mart_map/presentation/views/main/point_cart.dart';
+import 'package:mart_map/presentation/widgets/store_item_cart.dart';
 import 'package:mart_map/resources/AppDimensions.dart';
 
 class MainScreenView extends BaseView<MainScreenModel>
@@ -30,10 +30,11 @@ class MainScreenView extends BaseView<MainScreenModel>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    model.animationController = AnimationController(vsync: this, animationBehavior: AnimationBehavior.preserve);
+    model.animationController = AnimationController(
+        vsync: this, animationBehavior: AnimationBehavior.preserve);
     return BackdropScaffold(
       controller: model.animationController,
-      headerHeight: 200,
+      headerHeight: AppDimensions.headerHeight,
       title: Text("MartMap"),
       backLayer: FlutterMap(
         options: new MapOptions(
@@ -46,7 +47,8 @@ class MainScreenView extends BaseView<MainScreenModel>
         layers: model.layerOptions,
       ),
       frontLayer: Padding(
-        padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
+        padding: const EdgeInsets.fromLTRB(AppDimensions.paddingSmall,
+            AppDimensions.paddingSmall, AppDimensions.paddingSmall, 0),
         child: Column(
           children: <Widget>[
             TextFormField(
@@ -56,13 +58,15 @@ class MainScreenView extends BaseView<MainScreenModel>
                 fontSize: 16.0,
               ),
               decoration: InputDecoration(
-                hintText: 'Введите категорию',
+                hintText: 'Введите категорию...',
                 prefixIcon: Icon(Icons.search),
                 suffixIcon: Icon(Icons.filter_list),
-                contentPadding:
-                    new EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                contentPadding: new EdgeInsets.symmetric(
+                    vertical: AppDimensions.paddingSmall,
+                    horizontal: AppDimensions.paddingSmall),
                 border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(32.0)),
+                    borderRadius: BorderRadius.circular(
+                        AppDimensions.borderRadiusMedium)),
               ),
             ),
             getFrontLayer(model.stores)
@@ -74,34 +78,29 @@ class MainScreenView extends BaseView<MainScreenModel>
   }
 
   Widget getFrontLayer(List<Store> stores) {
-//    switch (model.state) {
-//      case MainViewSearchStates.stateSearch:
-//
-//        break;
-//      case MainViewSearchStates.statePoint:
-//        break;
-//      default:
-//        return Center(
-//          child: Text("Введите категорию..."),
-//        );
-//        break;
-//    }
-
-
-  model.layerOptions.add(model.markerLayerOptions(context));
-  model.animationController.fling(animationBehavior: AnimationBehavior.normal);
-  setState(() {});
-
-
-    return Container(
-      padding: EdgeInsets.only(top: AppDimensions.paddingSmall),
-      height: 505.0,
-      child: ListView.builder(
-        itemBuilder: (context, position) {
-          return getCardPointItem(stores[position], theme.appBarColor);
-        },
-        itemCount: stores.length,
-      ),
+    switch (model.state) {
+      case MainViewSearchStates.stateSearch:
+        {
+          return Container(
+            padding: EdgeInsets.only(top: AppDimensions.paddingSmall),
+            height: AppDimensions.listHeight,
+            child: ListView.builder(
+              itemBuilder: (context, position) {
+                return getCardStoreItem(stores[position], theme.appBarColor);
+              },
+              itemCount: stores.length,
+            ),
+          );
+        }
+      case MainViewSearchStates.statePoint:
+        {
+          return Container();
+        }
+      default:
+        {}
+    }
+    return Center(
+      child: Text("Введите категорию..."),
     );
   }
 
@@ -113,5 +112,4 @@ class MainScreenView extends BaseView<MainScreenModel>
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
-
 }

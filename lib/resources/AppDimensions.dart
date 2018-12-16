@@ -23,12 +23,14 @@ class AppDimensions {
   static const double textSizeLarge = 22.0;
 
   //BorderRadius
+  static const double borderRadiusMicro = 2.0;
   static const double borderRadiusSmall = 10.0;
   static const double borderRadiusNormal = 16.0;
   static const double borderRadiusMedium = 30.0;
   static const double borderRadiusLarge = 80.0;
 
-
   static const double imageSizeNormal = 100.0;
 
+  static const double headerHeight = 200.0;
+  static const double listHeight = 504.0;
 }

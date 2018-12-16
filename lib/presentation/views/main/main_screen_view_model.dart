@@ -8,9 +8,13 @@ class MainScreenViewModel
 
   @override
   Future init() async {
-    getMarkers();
+    setData();
   }
 
-  void getMarkers(){
+  void setData(){
+    model.stores = model.apiManager.getPoints();
+    model.reviews = model.apiManager.getReviews();
+    model.layerOptions.add(model.markerLayerOptions(view.context));
+    view.changeState();
   }
 }

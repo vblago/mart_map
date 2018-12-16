@@ -5,16 +5,16 @@ import 'package:mart_map/data/api/entities/Store.dart';
 import 'package:mart_map/resources/AppDimensions.dart';
 import 'package:flutter_rating/flutter_rating.dart';
 
-final formater = new NumberFormat("#,#0.0", "en_US");
+final formatter = new NumberFormat("#,#0.0", "en_US");
 
-Widget getCardPointItem(Store point, Color pointColor) {
+Widget getCardStoreItem(Store store, Color storeColor) {
   return Padding(
     padding: const EdgeInsets.all(AppDimensions.paddingPico),
     child: Card(
       child: Row(
         children: <Widget>[
           Image.network(
-            point.picUrl,
+            store.picUrl,
             width: AppDimensions.imageSizeNormal,
             height: AppDimensions.imageSizeNormal,
             fit: BoxFit.cover,
@@ -26,23 +26,23 @@ Widget getCardPointItem(Store point, Color pointColor) {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    point.name,
+                    store.name,
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Text(point.num),
+                  Text(store.num),
                   Row(
                     children: <Widget>[
                       StarRating(
-                        rating: point.rate,
+                        rating: store.rate,
                         size: AppDimensions.iconSizeSmall,
                       ),
-                      Text("${formater.format(point.rate)} / 5.0"),
+                      Text("${formatter.format(store.rate)} / 5.0"),
                     ],
                   ),
-                  Text(point.phone),
+                  Text(store.phone),
                 ],
               ),
             ),
@@ -54,7 +54,7 @@ Widget getCardPointItem(Store point, Color pointColor) {
                 Icon(
                   Icons.location_on,
                   size: 48,
-                  color: pointColor,
+                  color: storeColor,
                 ),
                 Text("На карте")
               ],
