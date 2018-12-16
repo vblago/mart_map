@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
-import 'package:mart_map/data/api/entities/Point.dart';
+import 'package:mart_map/data/api/entities/Store.dart';
 import 'package:mart_map/resources/AppDimensions.dart';
 import 'package:flutter_rating/flutter_rating.dart';
 
 final formater = new NumberFormat("#,#0.0", "en_US");
 
-Widget getCardPointItem(Point point, Color pointColor) {
+Widget getCardPointItem(Store point, Color pointColor) {
   return Padding(
     padding: const EdgeInsets.all(AppDimensions.paddingPico),
     child: Card(

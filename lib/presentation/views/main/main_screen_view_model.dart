@@ -8,6 +8,9 @@ class MainScreenViewModel
 
   @override
   Future init() async {
+    getMarkers();
+  }
 
+  void getMarkers(){
   }
 }
