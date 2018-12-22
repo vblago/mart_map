@@ -5,6 +5,7 @@ import 'package:latlong/latlong.dart';
 import 'package:mart_map/data/api/entities/Review.dart';
 import 'package:mart_map/data/api/entities/Store.dart';
 import 'package:mart_map/presentation/app/views_states.dart';
+import 'package:mart_map/presentation/utils/localizations.dart';
 import 'package:mart_map/presentation/views/base/mvvm/BaseView.dart';
 import 'package:mart_map/presentation/views/main/main_screen_model.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +39,7 @@ class MainScreenView extends BaseView<MainScreenModel>
     return BackdropScaffold(
       controller: model.animationController,
       headerHeight: AppDimensions.headerHeight,
-      title: Text("MartMap"),
+      title: Text(AppLocalizations.of(context).appName),
       backLayer: RepaintBoundary(
           key: model.screenshotKey,
           child: Column(
@@ -122,7 +123,7 @@ class MainScreenView extends BaseView<MainScreenModel>
                   fontSize: 16.0,
                 ),
                 decoration: InputDecoration(
-                  hintText: 'Введите категорию...',
+                  hintText: AppLocalizations.of(context).insertCategory,
                   prefixIcon: Icon(Icons.search),
                   suffixIcon: Icon(Icons.filter_list),
                   contentPadding: new EdgeInsets.symmetric(
@@ -153,7 +154,7 @@ class MainScreenView extends BaseView<MainScreenModel>
               Row(
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.only(left: 10),
+                    padding: const EdgeInsets.only(left: AppDimensions.paddingSmall),
                     child: Image.network(
                       model.currentStore.picUrl,
                       width: AppDimensions.imageSizeNormal,
@@ -215,7 +216,7 @@ class MainScreenView extends BaseView<MainScreenModel>
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.all(10),
+                padding: const EdgeInsets.all(AppDimensions.paddingSmall),
                 child: Text(
                   model.currentStore.description,
                   style: TextStyle(
@@ -224,14 +225,14 @@ class MainScreenView extends BaseView<MainScreenModel>
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20),
+                padding: const EdgeInsets.only(left: AppDimensions.paddingMiddle, right: AppDimensions.paddingMiddle),
                 child: Divider(
                   height: 5,
                   color: Colors.black12,
                 ),
               ),
               Text(
-                "Отзывы",
+                AppLocalizations.of(context).reviews,
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -253,7 +254,7 @@ class MainScreenView extends BaseView<MainScreenModel>
         {}
     }
     return Center(
-      child: Text("Введите категорию..."),
+      child: Text(AppLocalizations.of(context).insertCategory),
     );
   }
 
