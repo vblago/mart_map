@@ -12,9 +12,9 @@ import 'package:mart_map/presentation/widgets/store_marker_item.dart';
 class MainScreenModel extends BaseModel {
   OnClickCommand showStoreOnMap = new OnClickCommand();
   OnClickCommand showStoresOnMap = new OnClickCommand();
+  OnClickCommand shareStore = new OnClickCommand();
 
   MainViewSearchStates state = MainViewSearchStates.stateSearch;
-  int page = 0;
 
   List<LayerOptions> layerOptions = [
     new TileLayerOptions(
@@ -23,12 +23,14 @@ class MainScreenModel extends BaseModel {
   ];
 
   AnimationController animationController;
+  Store currentStore;
 
   ApiManager apiManager = new ApiManager();
+  var screenshotKey = new GlobalKey();
   List<Store> stores = List();
   List<Review> reviews = List();
-  Store currentStore;
   List<Review> currentReviews = List();
+  int page = 0;
 
   MarkerLayerOptions getMarkerLayerOptions(context) {
     List<Marker> markers = new List();

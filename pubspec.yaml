@@ -19,6 +19,7 @@ dependencies:
   backdrop: ^0.1.8
   flutter_rating: ^0.0.2
   flutter_map: ^0.3.0
+  esys_flutter_share: ^0.0.6
 
 dev_dependencies:
   flutter_test:

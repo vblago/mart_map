@@ -1,8 +1,11 @@
+import 'dart:ui';
+
 import 'package:mart_map/data/api/entities/Review.dart';
 import 'package:mart_map/presentation/app/views_states.dart';
 import 'package:mart_map/presentation/views/base/mvvm/BaseViewModel.dart';
 import 'package:mart_map/presentation/views/main/main_screen_model.dart';
 import 'package:mart_map/presentation/views/main/main_screen_view.dart';
+import 'package:esys_flutter_share/esys_flutter_share.dart';
 
 class MainScreenViewModel
     extends BaseViewModel<MainScreenModel, MainScreenView> {
@@ -13,6 +16,7 @@ class MainScreenViewModel
     setData();
     model.showStoreOnMap.addCallbackObject(showStore);
     model.showStoresOnMap.addEmptyFunctionCallback(showStores);
+    model.shareStore.addCallbackObject(shareStore);
   }
 
   void setData(){
@@ -35,6 +39,11 @@ class MainScreenViewModel
       i++;
     });
     view.changeState();
+  }
+
+  Future shareStore(Image image) async {
+    var byteData = await image.toByteData(format: ImageByteFormat.png);
+    await EsysFlutterShare.shareImage('myImageTest.png', byteData, 'Image Title');
   }
 
   void showStores(){

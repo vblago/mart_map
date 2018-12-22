@@ -1,3 +1,4 @@
+import 'package:flutter/rendering.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_rating/flutter_rating.dart';
 import 'package:latlong/latlong.dart';
@@ -38,16 +39,68 @@ class MainScreenView extends BaseView<MainScreenModel>
       controller: model.animationController,
       headerHeight: AppDimensions.headerHeight,
       title: Text("MartMap"),
-      backLayer: FlutterMap(
-        options: new MapOptions(
-          center: new LatLng(50.002711, 36.306370),
-          zoom: 17.5,
-          maxZoom: 17.5,
-          minZoom: 17.5,
-        ),
-        mapController: MapController(),
-        layers: model.layerOptions,
-      ),
+      backLayer: RepaintBoundary(
+          key: model.screenshotKey,
+          child: Column(
+            children: <Widget>[
+              Expanded(
+                child: FlutterMap(
+                  options: new MapOptions(
+                    center: new LatLng(50.003224, 36.306316),
+                    zoom: 17.5,
+                    maxZoom: 17.5,
+                    minZoom: 17.5,
+                  ),
+                  mapController: MapController(),
+                  layers: model.layerOptions,
+                ),
+              ),
+              model.currentStore != null
+                  ? Card(
+                      child: Row(
+                        children: <Widget>[
+                          Image.network(
+                            model.currentStore.picUrl,
+                            width: AppDimensions.imageSizeNormal,
+                            height: AppDimensions.imageSizeNormal,
+                            fit: BoxFit.cover,
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.all(
+                                  AppDimensions.paddingSmall),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    model.currentStore.name,
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(model.currentStore.num),
+                                  Row(
+                                    children: <Widget>[
+                                      StarRating(
+                                        rating: model.currentStore.rate,
+                                        size: AppDimensions.iconSizeSmall,
+                                      ),
+                                      Text(
+                                          "${formatter.format(model.currentStore.rate)} / 5.0"),
+                                    ],
+                                  ),
+                                  Text(model.currentStore.phone),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  : Container(),
+            ],
+          )),
       frontLayer: Padding(
           padding: const EdgeInsets.fromLTRB(AppDimensions.paddingSmall,
               AppDimensions.paddingSmall, AppDimensions.paddingSmall, 0),
@@ -137,11 +190,28 @@ class MainScreenView extends BaseView<MainScreenModel>
                       ),
                     ),
                   ),
-                  IconButton(
-                    icon: Icon(Icons.cancel),
-                    onPressed: () =>
-                        model.showStoresOnMap.onClickEmptyFunction(),
-                  )
+                  Column(
+                    children: <Widget>[
+                      IconButton(
+                        icon: Icon(Icons.cancel),
+                        color: Colors.grey,
+                        onPressed: () =>
+                            model.showStoresOnMap.onClickEmptyFunction(),
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.share),
+                        color: theme.appBarColor,
+                        onPressed: () async {
+                          RenderRepaintBoundary boundary = model
+                              .screenshotKey.currentContext
+                              .findRenderObject();
+                          var image = await boundary.toImage();
+
+                          model.shareStore.onClickObject(image);
+                        },
+                      ),
+                    ],
+                  ),
                 ],
               ),
               Padding(
@@ -207,8 +277,7 @@ class MainScreenView extends BaseView<MainScreenModel>
                 rating: review.rate.toDouble(),
                 size: AppDimensions.iconSizeSmall,
               ),
-              Text(
-                  "${formatter.format(review.rate.toDouble())} / 5.0"),
+              Text("${formatter.format(review.rate.toDouble())} / 5.0"),
             ],
           ),
           Text(review.description),
@@ -225,8 +294,7 @@ class MainScreenView extends BaseView<MainScreenModel>
         onTap: () {
           setState(() {
             model.animationController.fling(
-                velocity: 2.0,
-                animationBehavior: AnimationBehavior.preserve);
+                velocity: 2.0, animationBehavior: AnimationBehavior.preserve);
           });
           model.layerOptions.removeLast();
           model.showStoreOnMap.onClickObject(position);
@@ -267,22 +335,6 @@ class MainScreenView extends BaseView<MainScreenModel>
                       Text(store.phone),
                     ],
                   ),
-                ),
-              ),
-              FlatButton(
-                padding: EdgeInsets.all(0),
-                onPressed: () {
-
-                },
-                child: Column(
-                  children: <Widget>[
-                    Icon(
-                      Icons.location_on,
-                      size: AppDimensions.iconSizeLarge,
-                      color: theme.appBarColor,
-                    ),
-                    Text("Отправить")
-                  ],
                 ),
               ),
             ],
