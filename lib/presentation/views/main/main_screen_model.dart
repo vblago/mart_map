@@ -10,7 +10,8 @@ import 'package:flutter/widgets.dart';
 import 'package:mart_map/presentation/widgets/store_marker_item.dart';
 
 class MainScreenModel extends BaseModel {
-  OnClickCommand exitDialogStay = new OnClickCommand();
+  OnClickCommand showStoreOnMap = new OnClickCommand();
+  OnClickCommand showStoresOnMap = new OnClickCommand();
 
   MainViewSearchStates state = MainViewSearchStates.stateSearch;
   int page = 0;
@@ -26,8 +27,10 @@ class MainScreenModel extends BaseModel {
   ApiManager apiManager = new ApiManager();
   List<Store> stores = List();
   List<Review> reviews = List();
+  Store currentStore;
+  List<Review> currentReviews = List();
 
-  MarkerLayerOptions markerLayerOptions(context) {
+  MarkerLayerOptions getMarkerLayerOptions(context) {
     List<Marker> markers = new List();
     stores.forEach((Store store) {
       markers.add(
@@ -41,6 +44,21 @@ class MainScreenModel extends BaseModel {
         ),
       );
     });
+    return new MarkerLayerOptions(markers: markers);
+  }
+
+  MarkerLayerOptions getMarkerLayerOptionsByPosition(context, position) {
+    List<Marker> markers = new List();
+    markers.add(
+        Marker(
+          point: LatLng(
+            stores[position].latitude,
+            stores[position].longitude,
+          ),
+          builder: (context) => storeMarkerItem(stores[position]),
+          anchor: AnchorPos.top,
+        ),
+      );
     return new MarkerLayerOptions(markers: markers);
   }
 }

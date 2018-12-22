@@ -4,12 +4,12 @@ class AppDimensions {
   static const double iconSizeLow = 20.0;
   static const double iconSizeMedium = 24.0;
   static const double iconSizeNormal = 28.0;
-  static const double iconSizeLarge = 35.0;
+  static const double iconSizeLarge = 48.0;
 
   //Paddings
   static const double paddingPico = 2.0;
   static const double paddingMicro = 5.0;
-  static const double paddingSmall = 10.0;
+  static const double paddingSmall = 8.0;
   static const double paddingMiddle = 20.0;
   static const double paddingNormal = 30.0;
   static const double paddingLarge = 55.0;
