@@ -4,6 +4,7 @@ import 'package:latlong/latlong.dart';
 import 'package:mart_map/data/api/entities/Store.dart';
 import 'package:mart_map/data/api/entities/Review.dart';
 import 'package:mart_map/domain/managers/api_manager.dart';
+import 'package:mart_map/domain/managers/db_manager.dart';
 import 'package:mart_map/presentation/app/views_states.dart';
 import 'package:mart_map/presentation/views/base/mvvm/BaseModel.dart';
 import 'package:flutter/widgets.dart';
@@ -26,6 +27,7 @@ class MainScreenModel extends BaseModel {
   Store currentStore;
 
   ApiManager apiManager = new ApiManager();
+  DBManager dbManager = new DBManager();
   var screenshotKey = new GlobalKey();
   List<Store> stores = List();
   List<Review> reviews = List();
