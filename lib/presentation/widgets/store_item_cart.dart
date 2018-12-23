@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
-import 'package:mart_map/data/api/entities/Store.dart';
+import 'package:mart_map/data/db/entities/Store.dart';
 import 'package:mart_map/resources/AppDimensions.dart';
 import 'package:flutter_rating/flutter_rating.dart';
 

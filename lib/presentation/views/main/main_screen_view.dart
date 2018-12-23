@@ -2,8 +2,8 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_rating/flutter_rating.dart';
 import 'package:latlong/latlong.dart';
-import 'package:mart_map/data/api/entities/Review.dart';
-import 'package:mart_map/data/api/entities/Store.dart';
+import 'package:mart_map/data/db/entities/Review.dart';
+import 'package:mart_map/data/db/entities/Store.dart';
 import 'package:mart_map/presentation/app/views_states.dart';
 import 'package:mart_map/presentation/utils/localizations.dart';
 import 'package:mart_map/presentation/views/base/mvvm/BaseView.dart';
@@ -242,9 +242,9 @@ class MainScreenView extends BaseView<MainScreenModel>
               Expanded(
                 child: ListView.builder(
                   itemBuilder: (context, position) {
-                    return getReviewItem(model.currentReviews[position]);
+                    return getReviewItem(model.currentStore.reviews[position]);
                   },
-                  itemCount: model.currentReviews.length,
+                  itemCount: model.currentStore.reviews.length,
                 ),
               ),
             ],
@@ -297,9 +297,7 @@ class MainScreenView extends BaseView<MainScreenModel>
             model.animationController.fling(
                 velocity: 2.0, animationBehavior: AnimationBehavior.preserve);
           });
-          model.layerOptions.removeLast();
           model.showStoreOnMap.onClickObject(position);
-          changeState();
         },
         child: Card(
           child: Row(

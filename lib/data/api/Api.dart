@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:mart_map/data/api/entities/ApiRequest.dart';
-import 'package:mart_map/data/api/entities/BlockUserResponse.dart';
+import 'package:mart_map/data/api/entities/ApiResponse.dart';
 import 'package:mart_map/data/restAPI/BaseApi.dart';
 
 class FindApi extends BaseApi {
