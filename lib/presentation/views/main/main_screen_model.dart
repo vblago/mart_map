@@ -14,8 +14,12 @@ class MainScreenModel extends BaseModel {
   OnClickCommand showStoreOnMap = new OnClickCommand();
   OnClickCommand showStoresOnMap = new OnClickCommand();
   OnClickCommand shareStore = new OnClickCommand();
+  OnClickCommand changeSearchParameters = new OnClickCommand();
+  OnClickCommand removeSearchParameters = new OnClickCommand();
 
   MainViewSearchStates state = MainViewSearchStates.stateSearch;
+  MainViewLoadingStates stateLoading = MainViewLoadingStates.stateLoading;
+  MainViewFilterStates stateFilter = MainViewFilterStates.stateClosed;
 
   List<LayerOptions> layerOptions = [
     new TileLayerOptions(
@@ -26,6 +30,7 @@ class MainScreenModel extends BaseModel {
   AnimationController animationController;
   Store currentStore;
 
+  TextEditingController textController = new TextEditingController();
   DBManager dbManager = new DBManager();
   SearchParameters searchParameters = new SearchParameters();
   var screenshotKey = new GlobalKey();

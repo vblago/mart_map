@@ -13,10 +13,10 @@ class DBManager {
       text = params.text;
     }
     if (params.sex != null) {
-      sex = " AND sex = '" + params.sex + "'";
+      sex = " AND sex = '" + params.sex.toString() + "'";
     }
     if (params.size != null) {
-      size = " AND size = '" + params.size + "'";
+      size = " AND size = '" + params.size.toString() + "'";
     }
     if (params.sort != null) {
       sort = "ORDER BY ";

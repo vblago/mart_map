@@ -36,77 +36,96 @@ class MainScreenView extends BaseView<MainScreenModel>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return BackdropScaffold(
-      controller: model.animationController,
-      headerHeight: AppDimensions.headerHeight,
-      title: Text(AppLocalizations.of(context).appName),
-      backLayer: RepaintBoundary(
-          key: model.screenshotKey,
-          child: Column(
-            children: <Widget>[
-              Expanded(
-                child: FlutterMap(
-                  options: new MapOptions(
-                    center: new LatLng(50.003224, 36.306316),
-                    zoom: 17.5,
-                    maxZoom: 17.5,
-                    minZoom: 17.5,
+    return Stack(
+      children: <Widget>[
+        BackdropScaffold(
+          controller: model.animationController,
+          headerHeight: AppDimensions.headerHeight,
+          title: Text(AppLocalizations.of(context).appName),
+          backLayer: RepaintBoundary(
+              key: model.screenshotKey,
+              child: Column(
+                children: <Widget>[
+                  Expanded(
+                    child: FlutterMap(
+                      options: new MapOptions(
+                        center: new LatLng(50.003224, 36.306316),
+                        zoom: 17.5,
+                        maxZoom: 17.5,
+                        minZoom: 17.5,
+                      ),
+                      mapController: MapController(),
+                      layers: model.layerOptions,
+                    ),
                   ),
-                  mapController: MapController(),
-                  layers: model.layerOptions,
-                ),
-              ),
-              model.currentStore != null
-                  ? Card(
-                      child: Row(
-                        children: <Widget>[
-                          Image.network(
-                            model.currentStore.picUrl,
-                            width: AppDimensions.imageSizeNormal,
-                            height: AppDimensions.imageSizeNormal,
-                            fit: BoxFit.cover,
-                          ),
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.all(
-                                  AppDimensions.paddingSmall),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    model.currentStore.name,
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  Text(model.currentStore.num),
-                                  Row(
+                  model.currentStore != null
+                      ? Card(
+                          child: Row(
+                            children: <Widget>[
+                              Image.network(
+                                model.currentStore.picUrl,
+                                width: AppDimensions.imageSizeNormal,
+                                height: AppDimensions.imageSizeNormal,
+                                fit: BoxFit.cover,
+                              ),
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(
+                                      AppDimensions.paddingSmall),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: <Widget>[
-                                      StarRating(
-                                        rating: model.currentStore.rate,
-                                        size: AppDimensions.iconSizeSmall,
-                                      ),
                                       Text(
-                                          "${formatter.format(model.currentStore.rate)} / 5.0"),
+                                        model.currentStore.name,
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Text(model.currentStore.num),
+                                      Row(
+                                        children: <Widget>[
+                                          StarRating(
+                                            rating: model.currentStore.rate,
+                                            size: AppDimensions.iconSizeSmall,
+                                          ),
+                                          Text(
+                                              "${formatter.format(model.currentStore.rate)} / 5.0"),
+                                        ],
+                                      ),
+                                      Text(model.currentStore.phone),
                                     ],
                                   ),
-                                  Text(model.currentStore.phone),
-                                ],
+                                ),
                               ),
-                            ),
+                            ],
                           ),
-                        ],
-                      ),
-                    )
-                  : Container(),
-            ],
-          )),
-      frontLayer: Padding(
-          padding: const EdgeInsets.fromLTRB(AppDimensions.paddingSmall,
-              AppDimensions.paddingSmall, AppDimensions.paddingSmall, 0),
-          child: getFrontLayer(model.stores)),
-      iconPosition: BackdropIconPosition.action,
+                        )
+                      : Container(),
+                ],
+              )),
+          frontLayer: Padding(
+              padding: const EdgeInsets.fromLTRB(AppDimensions.paddingSmall,
+                  AppDimensions.paddingSmall, AppDimensions.paddingSmall, 0),
+              child: getFrontLayer(model.stores)),
+          iconPosition: BackdropIconPosition.action,
+        ),
+        model.stateFilter == MainViewFilterStates.stateOpen
+            ? GestureDetector(
+                child: Container(
+                  color: Colors.black38,
+                ),
+                onTap: () {
+                  model.stateFilter = MainViewFilterStates.stateClosed;
+                  changeState();
+                },
+              )
+            : Container(),
+        model.stateFilter == MainViewFilterStates.stateOpen
+            ? showFilterDialog()
+            : Container(),
+      ],
     );
   }
 
@@ -117,6 +136,7 @@ class MainScreenView extends BaseView<MainScreenModel>
           return Column(
             children: <Widget>[
               TextFormField(
+                controller: model.textController,
                 style: new TextStyle(
                   fontWeight: FontWeight.normal,
                   color: Colors.black,
@@ -125,25 +145,38 @@ class MainScreenView extends BaseView<MainScreenModel>
                 decoration: InputDecoration(
                   hintText: AppLocalizations.of(context).insertCategory,
                   prefixIcon: Icon(Icons.search),
-                  suffixIcon: Icon(Icons.filter_list),
+                  suffixIcon: IconButton(
+                    icon: Icon(Icons.filter_list),
+                    onPressed: () {
+                      model.stateFilter = MainViewFilterStates.stateOpen;
+                      changeState();
+                    },
+                  ),
                   contentPadding: new EdgeInsets.symmetric(
                       vertical: AppDimensions.paddingSmall,
                       horizontal: AppDimensions.paddingSmall),
                   border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(
-                          AppDimensions.borderRadiusMedium)),
+                    borderRadius:
+                        BorderRadius.circular(AppDimensions.borderRadiusMedium),
+                  ),
                 ),
               ),
-              Container(
-                padding: EdgeInsets.only(top: AppDimensions.paddingSmall),
-                height: AppDimensions.listHeight,
-                child: ListView.builder(
-                  itemBuilder: (context, position) {
-                    return getCardStoreItem(stores[position], position);
-                  },
-                  itemCount: stores.length,
-                ),
-              ),
+              model.stateLoading != MainViewLoadingStates.stateLoading
+                  ? Container(
+                      padding: EdgeInsets.only(top: AppDimensions.paddingSmall),
+                      height: AppDimensions.listHeight,
+                      child: ListView.builder(
+                        itemBuilder: (context, position) {
+                          return getCardStoreItem(stores[position], position);
+                        },
+                        itemCount: stores.length,
+                      ),
+                    )
+                  : Padding(
+                      padding:
+                          EdgeInsets.only(top: AppDimensions.paddingMiddle),
+                      child: CircularProgressIndicator(),
+                    ),
             ],
           );
         }
@@ -154,7 +187,8 @@ class MainScreenView extends BaseView<MainScreenModel>
               Row(
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.only(left: AppDimensions.paddingSmall),
+                    padding:
+                        const EdgeInsets.only(left: AppDimensions.paddingSmall),
                     child: Image.network(
                       model.currentStore.picUrl,
                       width: AppDimensions.imageSizeNormal,
@@ -225,7 +259,9 @@ class MainScreenView extends BaseView<MainScreenModel>
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: AppDimensions.paddingMiddle, right: AppDimensions.paddingMiddle),
+                padding: const EdgeInsets.only(
+                    left: AppDimensions.paddingMiddle,
+                    right: AppDimensions.paddingMiddle),
                 child: Divider(
                   height: 5,
                   color: Colors.black12,
@@ -340,6 +376,78 @@ class MainScreenView extends BaseView<MainScreenModel>
           ),
         ),
       ),
+    );
+  }
+
+  Widget showFilterDialog() {
+    return SimpleDialog(
+      title: const Text('Фильтрация и сортировка'),
+      children: <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text("Сортировать по: "),
+            DropdownButton<int>(
+              hint: new Text("Выбрать"),
+              value: (model.searchParameters.sort != null)
+                  ? model.searchParameters.sort
+                  : null,
+              onChanged: (int sort) {
+                model.searchParameters.sort = sort;
+                model.changeSearchParameters.onClickEmptyFunction();
+              },
+              items: model.searchParameters.getSortParameters(),
+            ),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text("Пол: "),
+            DropdownButton<int>(
+              hint: new Text("Выбрать"),
+              value: (model.searchParameters.sex != null)
+                  ? model.searchParameters.sex
+                  : null,
+              onChanged: (int sex) {
+                model.searchParameters.sex = sex;
+                model.changeSearchParameters.onClickEmptyFunction();
+              },
+              items: model.searchParameters.getSexParameters(),
+            ),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text("Возраст: "),
+            DropdownButton<int>(
+              hint: new Text("Выбрать"),
+              value: (model.searchParameters.size != null)
+                  ? model.searchParameters.size
+                  : null,
+              onChanged: (int size) {
+                model.searchParameters.size = size;
+                model.changeSearchParameters.onClickEmptyFunction();
+              },
+              items: model.searchParameters.getSizeParameters(),
+            ),
+          ],
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+          child: MaterialButton(
+            color: theme.appBarColor,
+            child: Text(
+              "Сбросить",
+              style: TextStyle(color: Colors.white),
+            ),
+            onPressed: () {
+              model.removeSearchParameters.onClickEmptyFunction();
+            },
+          ),
+        )
+      ],
     );
   }
 

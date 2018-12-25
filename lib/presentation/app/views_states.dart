@@ -1,3 +1,5 @@
 enum MainViewBackDropStates { stateBackDropOpen, stateBackDropClose}
-enum MainViewSearchStates { stateNone, stateSearch, statePoint}
+enum MainViewSearchStates { stateSearch, statePoint }
+enum MainViewLoadingStates { stateLoadingFinish, stateLoading}
 enum MainViewMapsStates { stateLoading, stateNormal }
+enum MainViewFilterStates { stateOpen, stateClosed }
