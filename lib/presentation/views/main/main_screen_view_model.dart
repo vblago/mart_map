@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:mart_map/domain/managers/entities/search_parameters.dart';
 import 'package:mart_map/presentation/app/views_states.dart';
 import 'package:mart_map/presentation/views/base/mvvm/BaseViewModel.dart';
 import 'package:mart_map/presentation/views/main/main_screen_model.dart';

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mart_map/presentation/utils/localizations.dart';
 
 class SearchParameters {
   String text;
@@ -19,6 +20,14 @@ class SearchParameters {
     sexDescriptions.add("Мужской");
     sizeDescriptions.add("Ребёнок");
     sizeDescriptions.add("Взрослый");
+//    sortDescriptions.add(AppLocalizations.of(context).sortingNumAZ);
+//    sortDescriptions.add(AppLocalizations.of(context).sortingNumZA);
+//    sortDescriptions.add(AppLocalizations.of(context).sortingNameAZ);
+//    sortDescriptions.add(AppLocalizations.of(context).sortingNameZA);
+//    sexDescriptions.add(AppLocalizations.of(context).sexFemale);
+//    sexDescriptions.add(AppLocalizations.of(context).sexMale);
+//    sizeDescriptions.add(AppLocalizations.of(context).sizeChild);
+//    sizeDescriptions.add(AppLocalizations.of(context).sizeAdult);
   }
 
   List<DropdownMenuItem<int>> getSortParameters() {

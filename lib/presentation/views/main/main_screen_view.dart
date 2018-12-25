@@ -381,14 +381,14 @@ class MainScreenView extends BaseView<MainScreenModel>
 
   Widget showFilterDialog() {
     return SimpleDialog(
-      title: const Text('Фильтрация и сортировка'),
+      title: Text(AppLocalizations.of(context).filtrationAndSorting),
       children: <Widget>[
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text("Сортировать по: "),
+            Text(AppLocalizations.of(context).sortingBy),
             DropdownButton<int>(
-              hint: new Text("Выбрать"),
+              hint: Text(AppLocalizations.of(context).select),
               value: (model.searchParameters.sort != null)
                   ? model.searchParameters.sort
                   : null,
@@ -403,9 +403,9 @@ class MainScreenView extends BaseView<MainScreenModel>
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text("Пол: "),
+            Text(AppLocalizations.of(context).sex),
             DropdownButton<int>(
-              hint: new Text("Выбрать"),
+              hint: Text(AppLocalizations.of(context).select),
               value: (model.searchParameters.sex != null)
                   ? model.searchParameters.sex
                   : null,
@@ -420,9 +420,9 @@ class MainScreenView extends BaseView<MainScreenModel>
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text("Возраст: "),
+            Text(AppLocalizations.of(context).size),
             DropdownButton<int>(
-              hint: new Text("Выбрать"),
+              hint: Text(AppLocalizations.of(context).select),
               value: (model.searchParameters.size != null)
                   ? model.searchParameters.size
                   : null,
@@ -435,11 +435,12 @@ class MainScreenView extends BaseView<MainScreenModel>
           ],
         ),
         Padding(
-          padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+          padding: const EdgeInsets.fromLTRB(AppDimensions.paddingMiddle,
+              AppDimensions.paddingSmall, AppDimensions.paddingMiddle, 0),
           child: MaterialButton(
             color: theme.appBarColor,
             child: Text(
-              "Сбросить",
+              AppLocalizations.of(context).reset,
               style: TextStyle(color: Colors.white),
             ),
             onPressed: () {
