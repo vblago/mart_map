@@ -49,7 +49,7 @@ class MainScreenView extends BaseView<MainScreenModel>
                   Expanded(
                     child: FlutterMap(
                       options: new MapOptions(
-                        center: new LatLng(50.003224, 36.306316),
+                        center: new LatLng(50.003369, 36.306305),
                         zoom: 17.5,
                         maxZoom: 17.5,
                         minZoom: 17.5,
@@ -275,6 +275,16 @@ class MainScreenView extends BaseView<MainScreenModel>
                   model.currentStore.description,
                   style: TextStyle(
                     fontStyle: FontStyle.italic,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(AppDimensions.paddingSmall),
+                child: Text(
+                  model.currentStore.categoriesInfo,
+                  style: TextStyle(
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
