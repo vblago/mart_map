@@ -145,12 +145,32 @@ class MainScreenView extends BaseView<MainScreenModel>
                 decoration: InputDecoration(
                   hintText: AppLocalizations.of(context).insertCategory,
                   prefixIcon: Icon(Icons.search),
-                  suffixIcon: IconButton(
-                    icon: Icon(Icons.filter_list),
-                    onPressed: () {
-                      model.stateFilter = MainViewFilterStates.stateOpen;
-                      changeState();
-                    },
+                  suffixIcon: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      IconButton(
+                        icon: Icon(Icons.looks_one),
+                        onPressed: () async {
+                          model.stores = await model.dbManager.getTopCategoriesStores();
+                          model.layerOptions
+                              .add(model.getMarkerLayerOptions(context));
+                          changeState();
+                          RenderRepaintBoundary boundary = model
+                              .screenshotKey.currentContext
+                              .findRenderObject();
+                          var image = await boundary.toImage();
+                          model.makeReport.onClickObject(image);
+                        },
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.filter_list),
+                        onPressed: () {
+                          model.stateFilter = MainViewFilterStates.stateOpen;
+                          changeState();
+                        },
+                      ),
+                    ],
                   ),
                   contentPadding: new EdgeInsets.symmetric(
                       vertical: AppDimensions.paddingSmall,

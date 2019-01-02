@@ -1,7 +1,8 @@
 import 'dart:ui';
 
-import 'package:mart_map/domain/managers/entities/search_parameters.dart';
+import 'package:flutter_share/flutter_share.dart';
 import 'package:mart_map/presentation/app/views_states.dart';
+import 'package:mart_map/presentation/utils/localizations.dart';
 import 'package:mart_map/presentation/views/base/mvvm/BaseViewModel.dart';
 import 'package:mart_map/presentation/views/main/main_screen_model.dart';
 import 'package:mart_map/presentation/views/main/main_screen_view.dart';
@@ -20,6 +21,7 @@ class MainScreenViewModel
         .addEmptyFunctionCallback(changeSearchParameters);
     model.removeSearchParameters
         .addEmptyFunctionCallback(removeSearchParameters);
+    model.makeReport.addCallbackObject(makeAndSharePdfReport);
     model.shareStore.addCallbackObject(shareStore);
     model.textController.addListener(changeText);
   }
@@ -43,7 +45,14 @@ class MainScreenViewModel
   Future shareStore(Image image) async {
     var byteData = await image.toByteData(format: ImageByteFormat.png);
     await EsysFlutterShare.shareImage(
-        'myImageTest.png', byteData, 'Image Title');
+        'store.png', byteData, AppLocalizations.of(view.context).shareStore);
+  }
+
+  Future makeAndSharePdfReport(Image image) async {
+    model.stores = await model.dbManager.getStores(model.searchParameters);
+    view.changeState();
+    String path = await model.reportManager.getPdfTopStoresReport(image, model.dbManager);
+    await FlutterShare.share(title: AppLocalizations.of(view.context).shareStores, fileUrl: path);
   }
 
   void showStores() {

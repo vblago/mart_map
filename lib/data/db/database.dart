@@ -30,6 +30,13 @@ class DatabaseApi {
     return await db.rawQuery(selectQuery);
   }
 
+  Future<List<Map>> getTopCategoriesStores(int topQuantity) async {
+    await dbOpen();
+    String selectQuery =
+        "SELECT store.id, store.num, store.name, store.latitude, store.longitude, store.phone, store.info, store.img_url, store.priority, store.avg_rate FROM store, stores_cat WHERE stores_cat.store_id=store.id GROUP BY stores_cat.store_id ORDER BY COUNT(stores_cat.category_id) DESC LIMIT $topQuantity";
+    return await db.rawQuery(selectQuery);
+  }
+
   Future createDatabase() async {
     var databasesPath = await getDatabasesPath();
     String path = join(databasesPath, 'mart_map.db');
@@ -159,10 +166,6 @@ class DatabaseApi {
       await txn.rawInsert(
           "INSERT INTO stores_cat(store_id, category_id) VALUES(0, 8)");
       await txn.rawInsert(
-          "INSERT INTO stores_cat(store_id, category_id) VALUES(0, 7)");
-      await txn.rawInsert(
-          "INSERT INTO stores_cat(store_id, category_id) VALUES(0, 2)");
-      await txn.rawInsert(
           "INSERT INTO stores_cat(store_id, category_id) VALUES(1, 1)");
       await txn.rawInsert(
           "INSERT INTO stores_cat(store_id, category_id) VALUES(2, 0)");
@@ -170,10 +173,6 @@ class DatabaseApi {
           "INSERT INTO stores_cat(store_id, category_id) VALUES(2, 9)");
       await txn.rawInsert(
           "INSERT INTO stores_cat(store_id, category_id) VALUES(2, 8)");
-      await txn.rawInsert(
-          "INSERT INTO stores_cat(store_id, category_id) VALUES(2, 7)");
-      await txn.rawInsert(
-          "INSERT INTO stores_cat(store_id, category_id) VALUES(2, 2)");
       await txn.rawInsert(
           "INSERT INTO stores_cat(store_id, category_id) VALUES(2, 10)");
       await txn.rawInsert(

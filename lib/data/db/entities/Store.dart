@@ -1,5 +1,6 @@
 import 'package:mart_map/data/db/entities/Category.dart';
 import 'package:mart_map/data/db/entities/Review.dart';
+import 'package:mart_map/domain/managers/entities/search_parameters.dart';
 
 class Store {
   int id;
@@ -15,6 +16,15 @@ class Store {
   List<Review> reviews;
   bool priority;
   double avgRate;
+
+  String get categoriesInfo{
+    SearchParameters searchParameters = new SearchParameters();
+    String categoriesStr = '';
+    categories.forEach((Category category){
+      categoriesStr += "${category.name} (${searchParameters.sexDescriptions[category.sex]}, ${searchParameters.sizeDescriptions[category.size]}); ";
+    });
+    return categoriesStr;
+  }
 
   Store(
       this.id,

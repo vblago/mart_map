@@ -32,7 +32,8 @@ class AppLocalizations {
   }
 
   String get filtrationAndSorting {
-    return Intl.message('Фильтрация и сортировка', name: 'filtration_and_sorting');
+    return Intl.message('Фильтрация и сортировка',
+        name: 'filtration_and_sorting');
   }
 
   String get sortingBy {
@@ -87,6 +88,13 @@ class AppLocalizations {
     return Intl.message('Взрослый', name: 'size_adult');
   }
 
+  String get shareStore {
+    return Intl.message('Поделиться магазином', name: 'share_store');
+  }
+
+  String get shareStores {
+    return Intl.message('Поделится топ магазинами', name: 'share_stores');
+  }
 }
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

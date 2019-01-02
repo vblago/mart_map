@@ -5,6 +5,7 @@ import 'package:mart_map/data/db/entities/Store.dart';
 import 'package:mart_map/data/db/entities/Review.dart';
 import 'package:mart_map/domain/managers/db_manager.dart';
 import 'package:mart_map/domain/managers/entities/search_parameters.dart';
+import 'package:mart_map/domain/managers/report_manager.dart';
 import 'package:mart_map/presentation/app/views_states.dart';
 import 'package:mart_map/presentation/views/base/mvvm/BaseModel.dart';
 import 'package:flutter/widgets.dart';
@@ -16,6 +17,7 @@ class MainScreenModel extends BaseModel {
   OnClickCommand shareStore = new OnClickCommand();
   OnClickCommand changeSearchParameters = new OnClickCommand();
   OnClickCommand removeSearchParameters = new OnClickCommand();
+  OnClickCommand makeReport = new OnClickCommand();
 
   MainViewSearchStates state = MainViewSearchStates.stateSearch;
   MainViewLoadingStates stateLoading = MainViewLoadingStates.stateLoading;
@@ -32,6 +34,7 @@ class MainScreenModel extends BaseModel {
 
   TextEditingController textController = new TextEditingController();
   DBManager dbManager = new DBManager();
+  ReportManager reportManager = new ReportManager();
   SearchParameters searchParameters = new SearchParameters();
   var screenshotKey = new GlobalKey();
   List<Store> stores = List();
